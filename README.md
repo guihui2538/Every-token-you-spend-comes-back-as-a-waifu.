@@ -1,10 +1,10 @@
 <div align="center">
 
-# ✨ Token姬 · 抽卡计划 ✨
+# 🎴 TokenHime
 
-### 把每一次对话，都变成一次十连
+## *Every token you spend comes back as a waifu.*
 
-**基于 token 消耗开发的二次元抽卡小游戏 · DeepSeek Harness 侧边栏插件**
+**基于 token 消耗的二次元抽卡小游戏 · DeepSeek Harness 侧边栏插件**
 
 [![version](https://img.shields.io/badge/version-0.1.0-d93a2b.svg)](./package.json)
 [![platform](https://img.shields.io/badge/platform-DSH%20Web-2e5bd6.svg)](https://github.com/deepseek-ai/deepseek-harness)

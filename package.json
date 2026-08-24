@@ -1,7 +1,7 @@
 {
   "name": "dsh-plugin-token-gacha",
   "version": "0.1.0",
-  "description": "Token姬 · 抽卡计划 —— 用对话喂养的二次元抽卡小游戏：token 消耗 → 怪物 → 代币 → 抽 AI 娘 → 圣遗物养成（小丑牌式数值战斗 × 百分百先生）",
+  "description": "TokenHime — Every token you spend comes back as a waifu. 用对话喂养的二次元抽卡小游戏：token 消耗 → 怪物 → 代币 → 抽 AI 娘 → 圣遗物养成（小丑牌式数值战斗 × 百分百先生）",
   "keywords": [
     "dsh",
     "dsh-plugin",

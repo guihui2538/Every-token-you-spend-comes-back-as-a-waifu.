@@ -1,0 +1,902 @@
+/* ============================================================
+   Token姬 · 抽卡计划 — 客户端样式
+   设计系统：包豪斯简约构成 × 复古未来主义
+   亮色（包豪斯纸面）：米白底 + 墨黑粗边框 + 硬阴影 + 红/黄/蓝三原色，锐角
+   暗色（复古未来）：深紫底 + 霓虹品红/青 + 落日橙，锐角 + 辉光
+   ============================================================ */
+
+.tg-root {
+  /* 设计令牌（亮色 = 包豪斯） */
+  --tg-bg: #f2ede1;
+  --tg-surface: #fbf7ec;
+  --tg-surface2: #ece4d0;
+  --tg-border: #17130e;
+  --tg-border-strong: #17130e;
+  --tg-text: #17130e;
+  --tg-muted: #6b6152;
+  --tg-faint: #a2957c;
+  --tg-accent: #d93a2b;
+  --tg-accent-soft: rgba(217, 58, 43, 0.12);
+  --tg-accent-contrast: #fbf7ec;
+  --tg-ssr: #e8a400;
+  --tg-ssr-soft: rgba(232, 164, 0, 0.18);
+  --tg-sr: #2e5bd6;
+  --tg-sr-soft: rgba(46, 91, 214, 0.14);
+  --tg-r: #6b6152;
+  --tg-r-soft: rgba(107, 97, 82, 0.14);
+  --tg-success: #1f7a4d;
+  --tg-danger: #d93a2b;
+  --tg-shadow: 4px 4px 0 rgba(23, 19, 14, 0.85);
+  --tg-shadow-soft: 2px 2px 0 rgba(23, 19, 14, 0.5);
+  --tg-radius: 0;
+  --tg-radius-sm: 0;
+  --tg-font: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+
+  font-family: var(--tg-font);
+  color: var(--tg-text);
+  font-size: 13px;
+  line-height: 1.65;
+  letter-spacing: 0.2px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 暗色 = 复古未来主义 */
+html[data-theme='dark'] .tg-root,
+html.dark .tg-root,
+@media (prefers-color-scheme: dark) {
+  .tg-root {
+    --tg-bg: #12101e;
+    --tg-surface: #1c1730;
+    --tg-surface2: #262046;
+    --tg-border: #4a3d78;
+    --tg-border-strong: #5c4d92;
+    --tg-text: #f3efff;
+    --tg-muted: #a89bd8;
+    --tg-faint: #6e6299;
+    --tg-accent: #ff5da2;
+    --tg-accent-soft: rgba(255, 93, 162, 0.16);
+    --tg-accent-contrast: #12101e;
+    --tg-ssr: #ffb84d;
+    --tg-ssr-soft: rgba(255, 184, 77, 0.16);
+    --tg-sr: #38e1ff;
+    --tg-sr-soft: rgba(56, 225, 255, 0.14);
+    --tg-r: #8b7fb3;
+    --tg-r-soft: rgba(139, 127, 179, 0.16);
+    --tg-success: #4ce0b3;
+    --tg-danger: #ff5d5d;
+    --tg-shadow: 5px 5px 0 rgba(0, 0, 0, 0.55);
+    --tg-shadow-soft: 2px 2px 0 rgba(0, 0, 0, 0.45);
+  }
+}
+
+/* ---------- 布局 ---------- */
+.tg-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 384px;
+  max-width: 92vw;
+  background: var(--tg-bg);
+  border-left: 3px solid var(--tg-text);
+  box-shadow: -6px 0 0 rgba(0, 0, 0, 0.12);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  animation: tg-slide-in 200ms ease-out;
+}
+
+@keyframes tg-slide-in {
+  from { transform: translateX(24px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+.tg-scrim {
+  position: fixed;
+  inset: 0;
+  background: rgba(23, 19, 14, 0.45);
+  z-index: 999;
+  animation: tg-fade 160ms ease-out;
+}
+
+@keyframes tg-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* 头部：粗黑下边框 + 包豪斯三色条 */
+.tg-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 14px;
+  border-bottom: 3px solid var(--tg-text);
+  background: var(--tg-surface);
+  position: relative;
+}
+
+.tg-header::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -3px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--tg-accent) 0 33%, var(--tg-ssr) 33% 66%, var(--tg-sr) 66% 100%);
+}
+
+.tg-header-title {
+  font-size: 17px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  flex: 1;
+}
+
+.tg-header-sub {
+  font-size: 10px;
+  color: var(--tg-muted);
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  margin-top: 2px;
+}
+
+.tg-body {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;   /* 防横向溢出 */
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.tg-body::-webkit-scrollbar { width: 8px; }
+.tg-body::-webkit-scrollbar-thumb { background: var(--tg-text); border-radius: 0; }
+
+/* ---------- 仪表盘 ---------- */
+.tg-dash {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.tg-stat {
+  background: var(--tg-surface);
+  border: 2px solid var(--tg-text);
+  border-radius: var(--tg-radius);
+  padding: 8px 10px;
+  box-shadow: var(--tg-shadow-soft);
+}
+
+.tg-stat-label {
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--tg-muted);
+  letter-spacing: 1.4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.tg-stat-value {
+  font-size: 18px;
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+  margin-top: 3px;
+}
+
+.tg-stat-value small { font-size: 10px; color: var(--tg-muted); font-weight: 700; }
+
+.tg-xp-bar, .tg-bar {
+  height: 8px;
+  border-radius: 0;
+  background: var(--tg-surface2);
+  border: 1px solid var(--tg-text);
+  overflow: hidden;
+  margin-top: 6px;
+}
+
+.tg-xp-bar > i, .tg-bar > i {
+  display: block;
+  height: 100%;
+  border-radius: 0;
+  background: var(--tg-accent);
+  transition: width 300ms ease;
+}
+
+.tg-xp-bar > i { background: var(--tg-success); }
+
+/* ---------- Tab 栏 ---------- */
+.tg-tabs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  background: var(--tg-surface);
+  border: 2px solid var(--tg-text);
+  border-radius: var(--tg-radius);
+  padding: 3px;
+  gap: 2px;
+  box-shadow: var(--tg-shadow-soft);
+}
+
+.tg-tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 9px 2px 7px;
+  border-radius: 0;
+  border: 2px solid transparent;
+  background: transparent;
+  color: var(--tg-muted);
+  font-size: 10.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 150ms ease, color 150ms ease, border-color 150ms ease;
+}
+
+.tg-tab:hover { background: var(--tg-surface2); color: var(--tg-text); }
+.tg-tab:focus-visible { outline: 2px solid var(--tg-accent); outline-offset: -2px; }
+.tg-tab.on {
+  background: var(--tg-accent);
+  border-color: var(--tg-text);
+  color: var(--tg-accent-contrast);
+}
+
+/* ---------- 通用卡片 ---------- */
+.tg-card {
+  background: var(--tg-surface);
+  border: 2px solid var(--tg-text);
+  border-radius: var(--tg-radius);
+  padding: 12px;
+  box-shadow: var(--tg-shadow);
+}
+
+.tg-card-title {
+  font-size: 11.5px;
+  font-weight: 900;
+  letter-spacing: 1.2px;
+  color: var(--tg-text);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+/* 包豪斯方形标记（红/黄双色构成） */
+.tg-card-title::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  background: linear-gradient(135deg, var(--tg-accent) 0 50%, var(--tg-ssr) 50% 100%);
+  flex-shrink: 0;
+}
+
+/* ---------- 按钮：大尺寸、粗边框、锐角 ---------- */
+.tg-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 2px solid var(--tg-text);
+  background: var(--tg-surface);
+  color: var(--tg-text);
+  font-size: 12.5px;
+  font-weight: 800;
+  padding: 11px 16px;
+  border-radius: 0;
+  cursor: pointer;
+  transition: background 150ms ease, color 150ms ease, transform 150ms ease, box-shadow 150ms ease;
+  min-height: 44px;
+  font-family: var(--tg-font);
+  box-shadow: var(--tg-shadow-soft);
+}
+
+.tg-btn:hover { background: var(--tg-text); color: var(--tg-surface); }
+.tg-btn:active { transform: translate(2px, 2px); box-shadow: none; }
+.tg-btn:focus-visible { outline: 2px solid var(--tg-accent); outline-offset: 1px; }
+.tg-btn:disabled { opacity: 0.4; cursor: not-allowed; box-shadow: none; }
+
+.tg-btn.primary {
+  background: var(--tg-accent);
+  border-color: var(--tg-text);
+  color: var(--tg-accent-contrast);
+  width: 100%;
+}
+.tg-btn.primary:hover { background: var(--tg-text); color: var(--tg-surface); }
+.tg-btn.ghost { border-color: transparent; background: transparent; color: var(--tg-muted); box-shadow: none; }
+.tg-btn.ghost:hover { background: var(--tg-surface2); color: var(--tg-text); }
+.tg-btn.sm { padding: 6px 12px; font-size: 11.5px; min-height: 32px; }
+.tg-btn.danger { color: var(--tg-danger); border-color: var(--tg-danger); }
+
+/* ---------- 白色占位立绘 ---------- */
+.tg-portrait {
+  background: #ffffff;
+  border: 2px solid var(--tg-text);
+  border-radius: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  color: #b9b3a6;
+  overflow: hidden;
+  position: relative;
+}
+
+.tg-portrait .tg-p-name {
+  font-size: 12px;
+  font-weight: 800;
+  color: #a29a89;
+  letter-spacing: 0.5px;
+}
+
+.tg-portrait .tg-p-hint {
+  font-size: 9px;
+  color: #cfc9bc;
+}
+
+.tg-portrait .tg-p-rarity {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  font-size: 8.5px;
+  font-weight: 900;
+  padding: 1px 5px;
+  border-radius: 0;
+}
+
+.tg-portrait.sm { border-radius: 0; }
+
+/* 稀有度 */
+.tg-rarity-SSR { color: var(--tg-ssr); }
+.tg-rarity-SR { color: var(--tg-sr); }
+.tg-rarity-R { color: var(--tg-r); }
+
+.tg-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 10px;
+  font-weight: 900;
+  padding: 1px 6px;
+  border-radius: 0;
+  border: 1px solid currentColor;
+}
+.tg-chip.SSR { background: var(--tg-ssr-soft); color: var(--tg-ssr); }
+.tg-chip.SR { background: var(--tg-sr-soft); color: var(--tg-sr); }
+.tg-chip.R { background: var(--tg-r-soft); color: var(--tg-r); }
+
+/* ---------- 抽卡 ---------- */
+.tg-pool-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tg-pool-btn {
+  flex-shrink: 0;
+  border: 2px solid var(--tg-text);
+  background: var(--tg-surface);
+  color: var(--tg-muted);
+  font-size: 11px;
+  font-weight: 800;
+  padding: 7px 12px;
+  border-radius: 0;
+  cursor: pointer;
+  transition: all 150ms ease;
+  min-height: 34px;
+}
+.tg-pool-btn:hover { background: var(--tg-text); color: var(--tg-surface); }
+.tg-pool-btn.on { background: var(--tg-accent); color: var(--tg-accent-contrast); }
+.tg-pool-btn.locked { opacity: 0.45; }
+
+.tg-up-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.tg-up-info { flex: 1; min-width: 0; }
+.tg-up-name { font-weight: 900; font-size: 14px; }
+.tg-up-desc { font-size: 10.5px; color: var(--tg-muted); margin-top: 2px; }
+.tg-up-rate { font-size: 10.5px; color: var(--tg-accent); font-weight: 800; margin-top: 2px; }
+
+.tg-pity { font-size: 10.5px; color: var(--tg-muted); margin-top: 8px; }
+
+.tg-pull-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+
+.tg-result {
+  border: 2px solid var(--tg-border);
+  border-radius: 0;
+  padding: 8px 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--tg-surface2);
+}
+.tg-result + .tg-result { margin-top: 6px; }
+.tg-result.SSR { border-color: var(--tg-ssr); background: var(--tg-ssr-soft); }
+
+.tg-result-info { flex: 1; min-width: 0; }
+.tg-result-name { font-weight: 800; font-size: 12.5px; }
+.tg-result-sub { font-size: 10.5px; color: var(--tg-muted); }
+
+/* ---------- 战斗 ---------- */
+.tg-monster {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border: 2px solid var(--tg-text);
+  border-radius: 0;
+  background: var(--tg-surface);
+}
+
+.tg-monster-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 0;
+  background: #ffffff;
+  border: 2px solid var(--tg-text);
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.tg-team-row {
+  display: flex;
+  gap: 8px;
+}
+
+.tg-slot {
+  flex: 1;
+  border: 2px dashed var(--tg-text);
+  border-radius: 0;
+  padding: 6px;
+  text-align: center;
+  background: var(--tg-surface2);
+  position: relative;
+}
+
+/* 战斗 3D 悬浮卡牌 */
+.tg-tilt {
+  transition: transform 140ms ease;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.tg-slot-card {
+  flex: 1;
+  min-width: 0;             /* 允许收缩，避免向右出框 */
+  border: 2px solid var(--tg-text);
+  border-radius: 0;
+  padding: 12px 6px 10px;
+  text-align: center;
+  background: var(--tg-surface);
+  box-shadow: var(--tg-shadow-soft);
+  position: relative;
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.tg-slot-card.lit {
+  box-shadow: 0 0 0 2px var(--tg-accent), 0 0 18px 3px var(--tg-accent-soft);
+  background: var(--tg-accent-soft);
+}
+.tg-slot-card-in {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.tg-slot-meta {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 2px;
+}
+
+.tg-slot-pos {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 9px;
+  font-weight: 900;
+  background: var(--tg-accent);
+  color: var(--tg-accent-contrast);
+  padding: 1px 8px;
+  border-radius: 0;
+  border: 1px solid var(--tg-text);
+  white-space: nowrap;
+  letter-spacing: 0.5px;
+}
+
+.tg-slot-name { font-size: 10.5px; font-weight: 800; margin-top: 4px; }
+.tg-slot-role { font-size: 9px; color: var(--tg-muted); }
+
+.tg-fight-log { display: flex; flex-direction: column; gap: 6px; max-height: 260px; overflow-y: auto; }
+.tg-round {
+  border: 2px solid var(--tg-border);
+  border-radius: 0;
+  padding: 8px 10px;
+  background: var(--tg-surface2);
+  animation: tg-fade 200ms ease;
+}
+.tg-round-head { font-size: 10.5px; font-weight: 800; color: var(--tg-muted); display: flex; justify-content: space-between; }
+.tg-hit { margin-top: 5px; }
+.tg-hit-name { font-size: 11px; font-weight: 800; display: flex; justify-content: space-between; }
+.tg-factors { display: flex; flex-wrap: wrap; gap: 3px; margin-top: 3px; }
+.tg-factor {
+  font-size: 9px;
+  font-variant-numeric: tabular-nums;
+  background: var(--tg-surface);
+  border: 1px solid var(--tg-border);
+  color: var(--tg-muted);
+  padding: 1px 5px;
+  border-radius: 0;
+}
+.tg-dmg-big {
+  font-size: 28px;
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  padding: 8px 0 2px;
+  color: var(--tg-accent);
+  letter-spacing: 1px;
+  text-shadow: 0 0 16px var(--tg-accent-soft), 2px 2px 0 rgba(23, 19, 14, 0.15);
+}
+
+/* ---------- 圣遗物 ---------- */
+.tg-art-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.tg-art {
+  border: 2px solid var(--tg-border);
+  border-radius: 0;
+  padding: 7px;
+  background: var(--tg-surface2);
+  cursor: pointer;
+  transition: border-color 150ms ease, background 150ms ease;
+  font-size: 10px;
+}
+.tg-art:hover { border-color: var(--tg-accent); }
+.tg-art.sel { border-color: var(--tg-accent); background: var(--tg-accent-soft); }
+.tg-art-main { font-weight: 900; font-size: 10.5px; }
+.tg-art-sub { color: var(--tg-muted); margin-top: 2px; line-height: 1.4; }
+.tg-art-lv { font-size: 9px; color: var(--tg-faint); margin-top: 2px; font-weight: 700; }
+
+.tg-slot-filter { display: flex; gap: 4px; flex-wrap: wrap; }
+
+/* ---------- 图鉴 ---------- */
+.tg-roster { display: flex; flex-direction: column; gap: 6px; }
+.tg-char-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 2px solid var(--tg-text);
+  border-radius: 0;
+  padding: 8px 10px;
+  background: var(--tg-surface);
+  box-shadow: var(--tg-shadow-soft);
+}
+.tg-char-row .tg-p-name { font-weight: 800; color: var(--tg-text); font-size: 12.5px; }
+.tg-char-meta { font-size: 10.5px; color: var(--tg-muted); margin-top: 1px; }
+.tg-char-order {
+  margin-left: auto;
+  display: flex;
+  gap: 2px;
+}
+.tg-order-btn {
+  border: 2px solid var(--tg-text);
+  background: var(--tg-surface2);
+  color: var(--tg-muted);
+  width: 30px;
+  height: 30px;
+  border-radius: 0;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 900;
+}
+.tg-order-btn:hover { background: var(--tg-text); color: var(--tg-surface); }
+.tg-order-btn.on { background: var(--tg-accent); color: var(--tg-accent-contrast); }
+
+/* ---------- 弹窗 ---------- */
+.tg-popup {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(23, 19, 14, 0.55);
+  animation: tg-fade 160ms ease;
+}
+
+.tg-popup-card {
+  width: 340px;
+  max-width: 90vw;
+  background: var(--tg-surface);
+  border: 3px solid var(--tg-text);
+  border-radius: 0;
+  box-shadow: var(--tg-shadow);
+  overflow: hidden;
+  animation: tg-pop 200ms ease;
+}
+
+@keyframes tg-pop {
+  from { transform: scale(0.94); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.tg-popup-hero {
+  padding: 16px 16px 12px;
+  background: var(--tg-accent-soft);
+  border-bottom: 2px solid var(--tg-text);
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.tg-popup-body { padding: 12px 16px 16px; display: flex; flex-direction: column; gap: 10px; }
+
+.tg-quote {
+  font-size: 11.5px;
+  color: var(--tg-muted);
+  font-style: italic;
+  border-left: 4px solid var(--tg-accent);
+  padding: 6px 10px;
+  background: var(--tg-surface2);
+  border-radius: 0;
+  line-height: 1.7;
+  letter-spacing: 0.4px;
+}
+
+/* ---------- 弹窗/消息 ---------- */
+.tg-toast {
+  position: fixed;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1300;
+  background: var(--tg-text);
+  color: var(--tg-bg);
+  font-size: 12px;
+  font-weight: 800;
+  padding: 10px 18px;
+  border-radius: 0;
+  box-shadow: var(--tg-shadow);
+  animation: tg-pop 160ms ease;
+  max-width: 80vw;
+}
+
+/* ---------- 分享 ---------- */
+.tg-share-card {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  background: #ffffff;
+  border: 2px solid var(--tg-text);
+  border-radius: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: #a29a89;
+}
+
+/* ---------- 通用小件 ---------- */
+.tg-row { display: flex; align-items: center; gap: 8px; }
+
+/* ---------- 拖拽排序 ---------- */
+.tg-slot.drop {
+  border-color: var(--tg-accent);
+  background: var(--tg-accent-soft);
+  border-style: solid;
+  box-shadow: inset 0 0 0 2px var(--tg-accent);
+}
+.tg-char-row.dragging { opacity: 0.45; }
+.tg-char-row[draggable='true']:active { cursor: grabbing; }
+.tg-muted { color: var(--tg-muted); }
+.tg-faint { color: var(--tg-faint); }
+.tg-num { font-variant-numeric: tabular-nums; }
+.tg-empty { text-align: center; color: var(--tg-faint); font-size: 11.5px; padding: 22px 0; font-weight: 600; letter-spacing: 0.5px; }
+.tg-divider { height: 1px; background: var(--tg-text); margin: 8px 0; }
+.tg-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+.tg-spin {
+  width: 14px; height: 14px;
+  border: 2px solid var(--tg-border-strong);
+  border-top-color: var(--tg-accent);
+  border-radius: 50%;
+  animation: tg-spin 700ms linear infinite;
+  display: inline-block;
+}
+
+@keyframes tg-spin { to { transform: rotate(360deg); } }
+
+/* ---------- 装备（共享 5 部位） ---------- */
+.tg-slot-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 10px;
+  border: 2px solid var(--tg-text);
+  border-radius: 0;
+  background: var(--tg-surface2);
+  cursor: pointer;
+  transition: border-color 150ms ease, background 150ms ease;
+}
+.tg-slot-row:hover { background: var(--tg-accent-soft); }
+
+.tg-slot-tag {
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  border-radius: 0;
+  background: var(--tg-accent);
+  color: var(--tg-accent-contrast);
+  font-size: 11px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--tg-text);
+}
+
+.tg-slot-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px 10px;
+  background: var(--tg-surface);
+  border: 2px solid var(--tg-text);
+  border-top: none;
+  border-radius: 0;
+}
+
+/* ---------- 战斗动画 ---------- */
+.tg-battle-stage { position: relative; }
+
+.tg-slot { transition: box-shadow 160ms ease, transform 160ms ease, background 160ms ease; }
+.tg-slot.lit {
+  box-shadow: 0 0 0 2px var(--tg-accent), 0 0 16px 2px var(--tg-accent-soft);
+  background: var(--tg-accent-soft);
+  transform: translateY(-3px);
+}
+
+.tg-step-label {
+  text-align: center;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--tg-muted);
+  min-height: 18px;
+  margin-top: 2px;
+}
+
+.tg-hit-fly {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-weight: 900;
+  font-size: 16px;
+  font-variant-numeric: tabular-nums;
+  color: var(--tg-danger);
+  animation: tg-hit-fly 620ms ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes tg-hit-fly {
+  0% { opacity: 0; transform: translate(0, -50%) scale(0.6); }
+  25% { opacity: 1; transform: translate(-8px, -50%) scale(1.15); }
+  100% { opacity: 0; transform: translate(-64px, -50%) scale(0.9); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tg-panel, .tg-popup-card, .tg-scrim, .tg-round, .tg-toast { animation: none; }
+  .tg-hit-fly { animation-duration: 1ms; }
+}
+
+/* ---------- 角色立绘图片 ---------- */
+.tg-portrait-img {
+  display: block;
+  max-width: 100%;        /* 空间不足时收缩，避免出框 */
+  border: 2px solid var(--tg-text);
+  border-radius: 0;
+  background: #fff;
+  box-shadow: var(--tg-shadow-soft);
+  object-fit: cover;
+}
+
+/* 卡池海报（抽卡 UP 展示，包含式不溢出） */
+.tg-poster {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 2px solid var(--tg-text);
+  box-shadow: var(--tg-shadow-soft);
+}
+
+/* ---------- 部署弹窗（左键短按） ---------- */
+.tg-deploy-pop {
+  position: fixed;
+  z-index: 1250;
+  background: var(--tg-surface);
+  border: 2px solid var(--tg-text);
+  box-shadow: var(--tg-shadow);
+  display: flex;
+  gap: 0;
+  padding: 0;
+}
+.tg-deploy-pop button {
+  border: none;
+  border-right: 2px solid var(--tg-text);
+  background: var(--tg-surface);
+  color: var(--tg-text);
+  font-size: 13px;
+  font-weight: 900;
+  padding: 10px 16px;
+  min-width: 64px;
+  cursor: pointer;
+  font-family: var(--tg-font);
+}
+.tg-deploy-pop button:last-child { border-right: none; }
+.tg-deploy-pop button:hover { background: var(--tg-text); color: var(--tg-surface); }
+.tg-deploy-pop button.cur { background: var(--tg-accent); color: var(--tg-accent-contrast); }
+
+/* ---------- 新手教程 ---------- */
+.tg-tutorial {
+  position: fixed;
+  inset: 0;
+  z-index: 1400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(23, 19, 14, 0.6);
+  animation: tg-fade 160ms ease-out;
+}
+.tg-tutorial-card {
+  width: 360px;
+  max-width: 92vw;
+  background: var(--tg-surface);
+  border: 3px solid var(--tg-text);
+  box-shadow: var(--tg-shadow);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.tg-tutorial-hero {
+  background: var(--tg-surface2);
+  border-bottom: 2px solid var(--tg-text);
+  display: flex;
+  justify-content: center;
+  padding: 14px;
+}
+.tg-tutorial-dialog {
+  background: #ffffff;
+  color: #17130e;
+  border: 2px solid var(--tg-text);
+  margin: 12px;
+  padding: 14px;
+  position: relative;
+  min-height: 96px;
+}
+.tg-tutorial-dialog::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 30px;
+  width: 0; height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid var(--tg-text);
+}
+.tg-tutorial-text { font-size: 13px; font-weight: 600; line-height: 1.6; }
+.tg-tutorial-name {
+  font-size: 11px; font-weight: 900; color: var(--tg-accent); margin-bottom: 4px;
+}
+.tg-tutorial-actions {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 10px 12px 14px; gap: 8px;
+}
+.tg-tutorial-step { font-size: 11px; color: var(--tg-muted); font-weight: 700; }

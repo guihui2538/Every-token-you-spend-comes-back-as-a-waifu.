@@ -1,0 +1,14 @@
+# dsh-plugin-token-gacha bundle patch.
+#
+# 本插件贡献一个 host 插件行（token 累计 + 游戏存档 + HTTP 路由 /token-gacha/*），
+# 浏览器半区由 package.json 的 dsh.client manifest 注入（React 侧边栏面板）。
+#
+# 参照 dsh-plugin-wallpaper-engine 的模式：只做 additive insert，不改任何已存在行。
+
+- insert:
+    # Host 半区：订阅会话投影的 tokenUsage，增量累计真实 token 消耗；
+    # 生成怪物、管理存档（~/.dsh-token-gacha/save.json）；
+    # 通过 ctx.webServer.register 暴露同源 REST 路由（见 src/host/index.ts）。
+    - id: token-gacha
+      name: 'dsh-plugin-token-gacha'
+      # config: {}   # 预留：换算率覆盖、卡池轮换表等后续可通过设置面板注入

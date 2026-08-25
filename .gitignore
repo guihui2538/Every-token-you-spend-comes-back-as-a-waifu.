@@ -5,3 +5,5 @@ lib/
 .pnpm-store/
 *.tgz
 .verify-home/
+.gh-token
+.market-work/

@@ -101,6 +101,8 @@ export const CHARACTERS: CharacterDef[] = [
     skill: { op: 'mult', value: 1.8, label: '总伤 ×1.8' }, special: 'stutter', weaponId: 'weapon_gpt' },
   { id: 'o3', name: 'o3娘', rarity: 'SSR', baseAtk: 1400, critRate: 0.05, critDmg: 0.5, dmgBonus: 0,
     skill: { op: 'mult', value: 1.4, label: '总伤 ×1.4' }, special: 'burst', weaponId: 'weapon_o3' },
+  { id: 'glm', name: 'GLM娘', rarity: 'SSR', baseAtk: 1450, critRate: 0.05, critDmg: 0.5, dmgBonus: 0,
+    skill: { op: 'dmg_add', value: 0.4, label: '增伤 +40%' }, special: null, weaponId: 'weapon_glm' },
   { id: 'claude', name: 'Claude娘', rarity: 'SSR', baseAtk: 1600, critRate: 0.05, critDmg: 0.5, dmgBonus: 0,
     skill: { op: 'mult', value: 1.6, label: '总伤 ×1.6' }, special: 'combocap', weaponId: 'weapon_claude' },
 ];
@@ -113,6 +115,7 @@ export const WEAPONS: Record<string, { name: string; charId: string }> = {
   weapon_gpt: { name: '涡轮引擎', charId: 'gpt' },
   weapon_o3: { name: '推理之环', charId: 'o3' },
   weapon_claude: { name: '羽毛笔', charId: 'claude' },
+  weapon_glm: { name: '全能智核', charId: 'glm' },
 };
 
 export const charById = (id: string): CharacterDef => CHARACTERS.find(c => c.id === id)!;

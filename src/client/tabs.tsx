@@ -2,7 +2,7 @@
  * 四个 Tab：战斗 / 抽卡 / 背包(装备+强化) / 图鉴
  */
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { ARTIFACT_SLOT_NAME, charById, POOLS, STAT_NAME, weaponById } from '../game/config';
+import { ARTIFACT_SLOT_NAME, charById, GACHA, POOLS, STAT_NAME, weaponById } from '../game/config';
 import type { ArtifactSlot, PoolId, SaveData, StateResponse } from '../game/types';
 import { fmt, Portrait, RarityChip, TiltCard } from './components';
 import { charPosters, monsterImg } from './portraits';
@@ -345,6 +345,24 @@ export function GachaTab({ save, computed, refresh, toast }: TabProps) {
         <button className={`tg-pool-btn ${pool === 'weapon' ? 'on' : ''}`} onClick={() => setPool('weapon')}>武器池</button>
         <button className={`tg-pool-btn ${pool === 'newbie' ? 'on' : ''}`} onClick={() => setPool('newbie')}>新手池</button>
       </div>
+
+      {pool === 'weapon' && up && upChar?.weaponId && (
+        <div className="tg-card">
+          <div className="tg-card-title">本期 UP 专武 · {countdown}</div>
+          <div className="tg-up-row" style={{ gap: 14 }}>
+            <Portrait name={upChar.name} rarity={upChar.rarity} size={72} />
+            <div className="tg-up-info">
+              <div className="tg-up-name">{weaponById(upChar.weaponId)?.name}</div>
+              <div className="tg-up-desc">专属武器 · 持有者 {upChar.name}</div>
+              <div className="tg-up-rate">武器池 SSR {Math.round(GACHA.WEAPON_SSR * 1000) / 10}% · {GACHA.WEAPON_PITY} 抽保底</div>
+            </div>
+          </div>
+          <div className="tg-pity">
+            距保底 <b className="tg-num">{Math.max(0, GACHA.WEAPON_PITY - save.gacha.weaponPity)}</b> 抽
+            {save.gacha.weaponGuaranteed && <span className="tg-rarity-SSR"> · 大保底已激活</span>}
+          </div>
+        </div>
+      )}
 
       {pool !== 'weapon' && pool !== 'newbie' && upChar && (
         <div className="tg-card">

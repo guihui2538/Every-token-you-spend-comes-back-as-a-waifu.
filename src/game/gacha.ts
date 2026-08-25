@@ -126,16 +126,19 @@ function rollOne(save: SaveData, pool: PoolId): PullResult {
       const c = pick(SR_CHARS);
       return grantCharacter(save, c.id, 'SR');
     }
-    // SR 非角色：40% 真圣遗物 / 60% 无属性狗粮
-    if (chance(0.4)) {
+    // SR 非角色：真圣遗物 / 无属性狗粮
+    if (chance(GACHA.SR_ARTIFACT_SHARE)) {
       return { kind: 'artifact', rarity: 'SR', artifact: createArtifact() };
     }
     return { kind: 'fodder', rarity: 'SR', artifact: createFodder(ECONOMY.SR_FODDER_EXP) };
   }
-  // R → R 角色 或 无属性狗粮（大量）
+  // R → R 角色 或 圣遗物/狗粮（大量）
   if (chance(GACHA.R_CHAR_SHARE)) {
     const c = pick(R_CHARS);
     return grantCharacter(save, c.id, 'R');
+  }
+  if (chance(GACHA.R_ARTIFACT_SHARE)) {
+    return { kind: 'artifact', rarity: 'R', artifact: createArtifact() };
   }
   return { kind: 'fodder', rarity: 'R', artifact: createFodder(ECONOMY.R_FODDER_EXP) };
 }

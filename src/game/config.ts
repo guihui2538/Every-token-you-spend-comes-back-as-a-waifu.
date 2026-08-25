@@ -14,7 +14,7 @@ export const ECONOMY = {
   EXP_PER_HP: 0.5,
   MAX_ROUNDS: 20,
   DAMAGE_CAP_PER_LEVEL: 5000,   // 单回合伤害上限 = 等级 × 5000
-  ARTIFACT_DROP_CHANCE: 0.05,   // 每次战斗 5% 掉圣遗物
+  ARTIFACT_DROP_CHANCE: 0.12,   // 每次战斗 12% 掉圣遗物
   MAX_LEVEL: 100,
   EXP_NEED_PER_LEVEL: 500,      // 升级所需 = 当前等级 × 500
   TEAM_SIZE: 3,
@@ -40,6 +40,8 @@ export const GACHA = {
   UP_SHARE: 0.5,
   R_CHAR_SHARE: 0.15,
   SR_CHAR_SHARE: 0.6,
+  SR_ARTIFACT_SHARE: 0.5,   // SR 非角色结果：50% 真圣遗物 / 50% 无属性狗粮
+  R_ARTIFACT_SHARE: 0.4,    // R 非角色结果：40% 真圣遗物 / 60% 无属性狗粮
   WEAPON_SSR: 0.007,
   WEAPON_PITY: 80,
   NEWBIE_SSR: 0.06,
